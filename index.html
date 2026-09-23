@@ -1,0 +1,1874 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SocialX AI — Social Media Agent</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,sans-serif;
+    background:#050510;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* ================= BACKGROUND ================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:700px;
+    height:700px;
+    background:#6c35ff;
+    filter:blur(180px);
+    opacity:.18;
+    top:-350px;
+    left:-250px;
+    z-index:-3;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:#00d9ff;
+    filter:blur(180px);
+    opacity:.12;
+    right:-300px;
+    bottom:-300px;
+    z-index:-3;
+}
+
+.grid-bg{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:50px 50px;
+    mask-image:linear-gradient(to bottom,black,transparent);
+    pointer-events:none;
+    z-index:-2;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    height:76px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(5,5,16,.72);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:"Space Grotesk";
+    font-size:22px;
+    font-weight:700;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:21px;
+    background:linear-gradient(135deg,#7c3cff,#00d9ff);
+    box-shadow:0 0 30px rgba(124,60,255,.45);
+}
+
+.logo span{
+    background:linear-gradient(90deg,#a27bff,#47e7ff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    color:#8d91a8;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#79e8b0;
+    font-size:12px;
+    padding:9px 13px;
+    border:1px solid rgba(121,232,176,.15);
+    border-radius:30px;
+    background:rgba(121,232,176,.05);
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#52e29b;
+    box-shadow:0 0 10px #52e29b;
+}
+
+.launch-btn{
+    padding:10px 17px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(135deg,#7040ff,#009fd0);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    max-width:1250px;
+    margin:auto;
+    padding:90px 25px 60px;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:70px;
+    align-items:center;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:30px;
+    background:rgba(124,60,255,.09);
+    border:1px solid rgba(145,105,255,.25);
+    color:#b6a1ff;
+    font-size:12px;
+    margin-bottom:22px;
+}
+
+.badge span{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#9a6cff;
+    box-shadow:0 0 12px #9a6cff;
+}
+
+.hero h1{
+    font-family:"Space Grotesk";
+    font-size:clamp(45px,6vw,78px);
+    line-height:.98;
+    letter-spacing:-3px;
+    margin-bottom:25px;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #9c70ff,
+        #4bdfff,
+        #b66cff
+    );
+    background-size:200%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:gradientMove 5s infinite;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0%}
+    50%{background-position:100%}
+    100%{background-position:0%}
+}
+
+.hero p{
+    max-width:570px;
+    color:#8d91a7;
+    line-height:1.8;
+    font-size:16px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:13px;
+    margin-top:30px;
+}
+
+.primary{
+    padding:14px 22px;
+    border:none;
+    border-radius:12px;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    background:linear-gradient(135deg,#7544ff,#00a6d5);
+    box-shadow:0 15px 45px rgba(98,58,255,.28);
+}
+
+.secondary{
+    padding:14px 22px;
+    border-radius:12px;
+    color:#b7bdd0;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.03);
+    cursor:pointer;
+}
+
+/* ================= AI ORB ================= */
+
+.ai-visual{
+    position:relative;
+    height:450px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.orbit{
+    position:absolute;
+    border:1px solid rgba(120,90,255,.2);
+    border-radius:50%;
+}
+
+.orbit.one{
+    width:350px;
+    height:350px;
+    animation:rotate 18s linear infinite;
+}
+
+.orbit.two{
+    width:260px;
+    height:260px;
+    animation:rotateReverse 12s linear infinite;
+}
+
+.orbit.three{
+    width:450px;
+    height:450px;
+    opacity:.4;
+    animation:rotate 25s linear infinite;
+}
+
+@keyframes rotate{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes rotateReverse{
+    to{transform:rotate(-360deg)}
+}
+
+.orbit::before{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#62ddff;
+    box-shadow:0 0 25px #62ddff;
+    top:-5px;
+    left:50%;
+}
+
+.orbit.two::before{
+    background:#a36cff;
+    box-shadow:0 0 25px #a36cff;
+    bottom:-5px;
+    top:auto;
+}
+
+.ai-core{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:
+    radial-gradient(circle at 35% 30%,#a26cff,#5531c8 45%,#101027 75%);
+    box-shadow:
+    0 0 80px rgba(117,67,255,.5),
+    inset 0 0 50px rgba(255,255,255,.08);
+    animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.05);
+        box-shadow:0 0 110px rgba(117,67,255,.65);
+    }
+}
+
+.ai-core-icon{
+    font-size:48px;
+    margin-bottom:5px;
+}
+
+.ai-core strong{
+    font-family:"Space Grotesk";
+    font-size:17px;
+}
+
+.ai-core small{
+    color:#c1b8ff;
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* Floating Cards */
+
+.float-card{
+    position:absolute;
+    padding:12px 15px;
+    background:rgba(15,16,34,.82);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:14px;
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+    font-size:12px;
+}
+
+.float-card strong{
+    display:block;
+    margin-top:4px;
+}
+
+.float-card.one{
+    top:50px;
+    left:20px;
+}
+
+.float-card.two{
+    right:0;
+    top:130px;
+}
+
+.float-card.three{
+    left:40px;
+    bottom:50px;
+}
+
+/* ================= SECTION ================= */
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    padding:30px 25px 80px;
+}
+
+.section-title{
+    margin-bottom:25px;
+}
+
+.section-title span{
+    color:#8e6aff;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.section-title h2{
+    font-family:"Space Grotesk";
+    font-size:30px;
+    margin-top:7px;
+}
+
+.section-title p{
+    color:#73788d;
+    font-size:13px;
+    margin-top:6px;
+}
+
+/* ================= METRICS ================= */
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+}
+
+.metric{
+    padding:22px;
+    background:linear-gradient(
+        145deg,
+        rgba(23,24,49,.85),
+        rgba(10,11,24,.8)
+    );
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    transition:.35s;
+}
+
+.metric:hover{
+    transform:translateY(-7px);
+    border-color:rgba(142,106,255,.35);
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.metric-top{
+    display:flex;
+    justify-content:space-between;
+    color:#7f8499;
+    font-size:13px;
+}
+
+.metric-icon{
+    width:38px;
+    height:38px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:11px;
+    background:rgba(126,79,255,.12);
+}
+
+.metric h3{
+    font-size:30px;
+    margin:16px 0 6px;
+    font-family:"Space Grotesk";
+}
+
+.up{
+    color:#50dfa0;
+    font-size:12px;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:18px;
+    margin-top:20px;
+}
+
+.panel{
+    background:rgba(15,16,34,.76);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:20px;
+    padding:23px;
+    backdrop-filter:blur(20px);
+}
+
+.panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.panel-head h3{
+    font-size:17px;
+}
+
+.panel-head span{
+    color:#777d92;
+    font-size:12px;
+}
+
+/* Graph */
+
+.graph{
+    height:270px;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    padding-top:20px;
+}
+
+.graph::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 53px,
+        rgba(255,255,255,.055) 54px
+    );
+}
+
+.graph-bar{
+    flex:1;
+    position:relative;
+    z-index:1;
+    min-height:20px;
+    border-radius:8px 8px 2px 2px;
+    background:linear-gradient(
+        to top,
+        #6540e8,
+        #39d9f5
+    );
+    box-shadow:0 0 20px rgba(76,130,255,.15);
+    transition:.4s;
+}
+
+.graph-bar:hover{
+    transform:translateY(-8px);
+    filter:brightness(1.3);
+}
+
+.graph-label{
+    position:absolute;
+    bottom:-25px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#62687d;
+    font-size:10px;
+}
+
+/* Platforms */
+
+.platform{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.platform:last-child{
+    border:none;
+}
+
+.platform-logo{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:800;
+}
+
+.ig{background:rgba(231,74,145,.12);color:#ff6eac;}
+.fb{background:rgba(56,119,255,.12);color:#5d9cff;}
+.yt{background:rgba(255,64,64,.12);color:#ff6c6c;}
+.li{background:rgba(51,142,210,.12);color:#5ebeff;}
+
+.platform-info{
+    flex:1;
+}
+
+.platform-info strong{
+    display:block;
+    font-size:13px;
+}
+
+.platform-info small{
+    color:#70758a;
+    font-size:11px;
+}
+
+.platform-percent{
+    font-size:12px;
+    color:#52dda0;
+}
+
+.mini-progress{
+    height:4px;
+    background:#24253a;
+    border-radius:10px;
+    margin-top:6px;
+}
+
+.mini-progress span{
+    display:block;
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,#7447ff,#42dff8);
+}
+
+/* ================= INSIGHTS ================= */
+
+.insights{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:18px;
+    margin-top:20px;
+}
+
+.insight{
+    min-height:220px;
+}
+
+.trend-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.trend{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+}
+
+.trend-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.rank{
+    color:#777d91;
+    font-size:11px;
+}
+
+.trend strong{
+    font-size:12px;
+}
+
+.trend small{
+    color:#55dfa0;
+}
+
+/* Sentiment */
+
+.sentiment-circle{
+    width:145px;
+    height:145px;
+    margin:10px auto 20px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+    conic-gradient(
+        #52dfa0 0 72%,
+        #f2c94c 72% 91%,
+        #ff6370 91% 100%
+    );
+    position:relative;
+}
+
+.sentiment-circle::after{
+    content:"";
+    position:absolute;
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    background:#101122;
+}
+
+.sentiment-circle div{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.sentiment-circle strong{
+    display:block;
+    font-size:25px;
+}
+
+.sentiment-circle small{
+    color:#70768b;
+}
+
+.sentiment-stats{
+    display:flex;
+    justify-content:space-around;
+    text-align:center;
+}
+
+.sentiment-stats b{
+    display:block;
+    font-size:14px;
+}
+
+.sentiment-stats small{
+    color:#6f7589;
+    font-size:10px;
+}
+
+/* Hashtags */
+
+.hashtags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.hashtag{
+    padding:9px 12px;
+    border-radius:9px;
+    color:#a892ff;
+    background:rgba(125,77,255,.09);
+    border:1px solid rgba(125,77,255,.15);
+    font-size:11px;
+    transition:.3s;
+}
+
+.hashtag:hover{
+    background:rgba(125,77,255,.2);
+    transform:translateY(-3px);
+}
+
+/* ================= CONTENT GENERATOR ================= */
+
+.generator{
+    margin-top:20px;
+    padding:30px;
+    border-radius:22px;
+    background:
+    linear-gradient(
+        120deg,
+        rgba(95,48,220,.15),
+        rgba(0,201,255,.07),
+        rgba(95,48,220,.12)
+    );
+    border:1px solid rgba(142,106,255,.16);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.generator h2{
+    font-family:"Space Grotesk";
+    font-size:28px;
+}
+
+.generator p{
+    color:#858a9f;
+    margin-top:10px;
+    line-height:1.7;
+    font-size:13px;
+}
+
+.idea-box{
+    padding:22px;
+    background:rgba(0,0,0,.2);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:16px;
+}
+
+.idea{
+    font-size:14px;
+    color:#cdd1df;
+    line-height:1.7;
+    min-height:55px;
+}
+
+.generate{
+    margin-top:17px;
+    padding:11px 17px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#7143f3,#009dce);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    border-top:1px solid rgba(255,255,255,.06);
+    padding:25px 6%;
+    display:flex;
+    justify-content:space-between;
+    color:#5f6477;
+    font-size:11px;
+}
+
+/* ================= AI CHAT ================= */
+
+.chat-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(6px);
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+
+.chat-overlay.active{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.chat-window{
+    position:fixed;
+    width:420px;
+    height:620px;
+    right:25px;
+    bottom:25px;
+    z-index:201;
+    background:#0d0e1e;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:24px;
+    box-shadow:0 30px 100px rgba(0,0,0,.55);
+    transform:translateY(30px) scale(.95);
+    opacity:0;
+    pointer-events:none;
+    transition:.35s;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.chat-window.active{
+    transform:none;
+    opacity:1;
+    pointer-events:auto;
+}
+
+.chat-head{
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.bot-avatar{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#7347ff,#00c6e9);
+}
+
+.chat-head strong{
+    display:block;
+    font-size:14px;
+}
+
+.chat-head small{
+    color:#55dda0;
+    font-size:10px;
+}
+
+.close-chat{
+    margin-left:auto;
+    border:none;
+    background:none;
+    color:#8d92a6;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.messages{
+    flex:1;
+    padding:18px;
+    overflow-y:auto;
+}
+
+.msg{
+    max-width:82%;
+    padding:12px 14px;
+    margin-bottom:12px;
+    border-radius:14px;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.bot-msg{
+    background:#181a2d;
+    color:#c7cad8;
+    border-bottom-left-radius:4px;
+}
+
+.user-msg{
+    background:linear-gradient(135deg,#7042ef,#008cb8);
+    margin-left:auto;
+    border-bottom-right-radius:4px;
+}
+
+.quick-actions{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:0 15px 12px;
+}
+
+.quick-actions button{
+    white-space:nowrap;
+    border:1px solid rgba(255,255,255,.08);
+    background:#15172a;
+    color:#a5a9b9;
+    border-radius:20px;
+    padding:7px 10px;
+    font-size:10px;
+    cursor:pointer;
+}
+
+.chat-input{
+    padding:14px;
+    display:flex;
+    gap:8px;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.chat-input input{
+    flex:1;
+    border:none;
+    outline:none;
+    color:white;
+    background:#17182b;
+    border-radius:11px;
+    padding:12px;
+    font-size:12px;
+}
+
+.send{
+    width:42px;
+    border:none;
+    border-radius:11px;
+    background:#7145f1;
+    color:white;
+    cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:950px){
+
+    .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .hero p{
+        margin:auto;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .metrics{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .insights{
+        grid-template-columns:1fr;
+    }
+
+    .generator{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        display:none;
+    }
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .status{
+        display:none;
+    }
+
+    .hero{
+        padding-top:55px;
+    }
+
+    .hero h1{
+        font-size:45px;
+        letter-spacing:-2px;
+    }
+
+    .ai-visual{
+        height:350px;
+    }
+
+    .orbit.one{
+        width:260px;
+        height:260px;
+    }
+
+    .orbit.two{
+        width:190px;
+        height:190px;
+    }
+
+    .orbit.three{
+        width:330px;
+        height:330px;
+    }
+
+    .ai-core{
+        width:135px;
+        height:135px;
+    }
+
+    .ai-core-icon{
+        font-size:35px;
+    }
+
+    .float-card{
+        transform:scale(.85);
+    }
+
+    .metrics{
+        grid-template-columns:1fr;
+    }
+
+    .generator{
+        padding:20px;
+    }
+
+    .chat-window{
+        width:calc(100% - 20px);
+        right:10px;
+        bottom:10px;
+        height:600px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="grid-bg"></div>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        Social<span>X AI</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#trends">Trends</a>
+        <a href="#content">Content AI</a>
+    </div>
+
+    <div class="nav-right">
+
+        <div class="status">
+            <span class="status-dot"></span>
+            AI Online
+        </div>
+
+        <button class="launch-btn" onclick="openChat()">
+            Launch Agent
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div>
+
+        <div class="badge">
+            <span></span>
+            NEXT-GEN SOCIAL MEDIA INTELLIGENCE
+        </div>
+
+        <h1>
+            Your Social Media.<br>
+            <span class="gradient-text">Powered by AI.</span>
+        </h1>
+
+        <p>
+            SocialX AI transforms scattered social media data into
+            actionable insights. Track trends, understand audiences,
+            discover opportunities and generate content — all from one
+            intelligent agent.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="primary" onclick="openChat()">
+                ✦ Talk to AI Agent
+            </button>
+
+            <button class="secondary" onclick="scrollToDashboard()">
+                Explore Analytics →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI VISUAL -->
+
+    <div class="ai-visual">
+
+        <div class="orbit one"></div>
+        <div class="orbit two"></div>
+        <div class="orbit three"></div>
+
+        <div class="ai-core">
+            <div class="ai-core-icon">🧠</div>
+            <strong>SocialX AI</strong>
+            <small>INTELLIGENCE ENGINE</small>
+        </div>
+
+        <div class="float-card one">
+            📈 Reach Growth
+            <strong>+24.8%</strong>
+        </div>
+
+        <div class="float-card two">
+            🔥 Trending
+            <strong>#ArtificialIntelligence</strong>
+        </div>
+
+        <div class="float-card three">
+            😊 Sentiment
+            <strong>72% Positive</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="container" id="dashboard">
+
+    <div class="section-title">
+        <span>Real-Time Intelligence</span>
+        <h2>Social Performance</h2>
+        <p>Your social ecosystem at a glance.</p>
+    </div>
+
+
+    <div class="metrics">
+
+        <div class="metric">
+
+            <div class="metric-top">
+                <span>Total Reach</span>
+                <div class="metric-icon">👁</div>
+            </div>
+
+            <h3>2.84M</h3>
+
+            <span class="up">↑ 18.6% this month</span>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-top">
+                <span>Engagement</span>
+                <div class="metric-icon">❤️</div>
+            </div>
+
+            <h3>186.4K</h3>
+
+            <span class="up">↑ 12.4% this month</span>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-top">
+                <span>Followers</span>
+                <div class="metric-icon">👥</div>
+            </div>
+
+            <h3>48.7K</h3>
+
+            <span class="up">↑ 8.9% this month</span>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-top">
+                <span>Engagement Rate</span>
+                <div class="metric-icon">⚡</div>
+            </div>
+
+            <h3>7.82%</h3>
+
+            <span class="up">↑ 2.1% this month</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ANALYTICS -->
+
+    <div class="dashboard" id="analytics">
+
+        <div class="panel">
+
+            <div class="panel-head">
+
+                <div>
+                    <h3>Engagement Analytics</h3>
+                    <span>Last 7 days</span>
+                </div>
+
+                <span>Live Data</span>
+
+            </div>
+
+
+            <div class="graph">
+
+                <div class="graph-bar" style="height:43%">
+                    <span class="graph-label">Mon</span>
+                </div>
+
+                <div class="graph-bar" style="height:58%">
+                    <span class="graph-label">Tue</span>
+                </div>
+
+                <div class="graph-bar" style="height:51%">
+                    <span class="graph-label">Wed</span>
+                </div>
+
+                <div class="graph-bar" style="height:70%">
+                    <span class="graph-label">Thu</span>
+                </div>
+
+                <div class="graph-bar" style="height:63%">
+                    <span class="graph-label">Fri</span>
+                </div>
+
+                <div class="graph-bar" style="height:91%">
+                    <span class="graph-label">Sat</span>
+                </div>
+
+                <div class="graph-bar" style="height:78%">
+                    <span class="graph-label">Sun</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLATFORM -->
+
+        <div class="panel">
+
+            <div class="panel-head">
+                <h3>Platform Intelligence</h3>
+                <span>4 Channels</span>
+            </div>
+
+
+            <div class="platform">
+
+                <div class="platform-logo ig">◎</div>
+
+                <div class="platform-info">
+                    <strong>Instagram</strong>
+                    <small>9.2% Engagement</small>
+
+                    <div class="mini-progress">
+                        <span style="width:92%"></span>
+                    </div>
+                </div>
+
+                <div class="platform-percent">92%</div>
+
+            </div>
+
+
+            <div class="platform">
+
+                <div class="platform-logo fb">f</div>
+
+                <div class="platform-info">
+                    <strong>Facebook</strong>
+                    <small>7.4% Engagement</small>
+
+                    <div class="mini-progress">
+                        <span style="width:74%"></span>
+                    </div>
+                </div>
+
+                <div class="platform-percent">74%</div>
+
+            </div>
+
+
+            <div class="platform">
+
+                <div class="platform-logo yt">▶</div>
+
+                <div class="platform-info">
+                    <strong>YouTube</strong>
+                    <small>6.8% Engagement</small>
+
+                    <div class="mini-progress">
+                        <span style="width:68%"></span>
+                    </div>
+                </div>
+
+                <div class="platform-percent">68%</div>
+
+            </div>
+
+
+            <div class="platform">
+
+                <div class="platform-logo li">in</div>
+
+                <div class="platform-info">
+                    <strong>LinkedIn</strong>
+                    <small>5.9% Engagement</small>
+
+                    <div class="mini-progress">
+                        <span style="width:59%"></span>
+                    </div>
+                </div>
+
+                <div class="platform-percent">59%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= INSIGHTS ================= -->
+
+    <div class="insights" id="trends">
+
+
+        <!-- TRENDING -->
+
+        <div class="panel insight">
+
+            <div class="panel-head">
+                <h3>🔥 Trending Topics</h3>
+                <span>Live</span>
+            </div>
+
+            <div class="trend-list">
+
+                <div class="trend">
+                    <div class="trend-left">
+                        <span class="rank">01</span>
+                        <strong>Artificial Intelligence</strong>
+                    </div>
+                    <small>+42%</small>
+                </div>
+
+                <div class="trend">
+                    <div class="trend-left">
+                        <span class="rank">02</span>
+                        <strong>Creator Economy</strong>
+                    </div>
+                    <small>+31%</small>
+                </div>
+
+                <div class="trend">
+                    <div class="trend-left">
+                        <span class="rank">03</span>
+                        <strong>Digital Marketing</strong>
+                    </div>
+                    <small>+27%</small>
+                </div>
+
+                <div class="trend">
+                    <div class="trend-left">
+                        <span class="rank">04</span>
+                        <strong>Future of Work</strong>
+                    </div>
+                    <small>+19%</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SENTIMENT -->
+
+        <div class="panel insight">
+
+            <div class="panel-head">
+                <h3>💬 Audience Sentiment</h3>
+                <span>AI Analysis</span>
+            </div>
+
+            <div class="sentiment-circle">
+
+                <div>
+                    <strong>72%</strong>
+                    <small>Positive</small>
+                </div>
+
+            </div>
+
+            <div class="sentiment-stats">
+
+                <div>
+                    <b style="color:#52dfa0">72%</b>
+                    <small>Positive</small>
+                </div>
+
+                <div>
+                    <b style="color:#f2c94c">20%</b>
+                    <small>Neutral</small>
+                </div>
+
+                <div>
+                    <b style="color:#ff6370">8%</b>
+                    <small>Negative</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HASHTAGS -->
+
+        <div class="panel insight">
+
+            <div class="panel-head">
+                <h3>🚀 Rising Hashtags</h3>
+                <span>AI Detected</span>
+            </div>
+
+            <div class="hashtags">
+
+                <span class="hashtag">#ArtificialIntelligence</span>
+                <span class="hashtag">#AITools</span>
+                <span class="hashtag">#DigitalMarketing</span>
+                <span class="hashtag">#FutureOfAI</span>
+                <span class="hashtag">#SocialMedia</span>
+                <span class="hashtag">#Innovation</span>
+                <span class="hashtag">#TechTrends</span>
+                <span class="hashtag">#CreatorEconomy</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CONTENT AI ================= -->
+
+    <div class="generator" id="content">
+
+        <div>
+
+            <span style="color:#9878ff;font-size:11px;letter-spacing:2px;">
+                AI CONTENT STUDIO
+            </span>
+
+            <h2>Never run out of content ideas.</h2>
+
+            <p>
+                Let SocialX AI analyze trends, audience interests and
+                engagement patterns to generate fresh social media ideas
+                for your brand.
+            </p>
+
+            <button class="primary" onclick="generateIdea()">
+                ✦ Generate AI Idea
+            </button>
+
+        </div>
+
+
+        <div class="idea-box">
+
+            <div class="idea" id="ideaText">
+                Click "Generate AI Idea" and let your social media
+                assistant create a fresh content concept.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div>
+        © 2026 SocialX AI — Social Media Intelligence Agent
+    </div>
+
+    <div>
+        Built with HTML • CSS • JavaScript • AI
+    </div>
+
+</footer>
+
+
+<!-- ================= AI CHAT ================= -->
+
+<div class="chat-overlay" id="overlay" onclick="closeChat()"></div>
+
+
+<div class="chat-window" id="chatWindow">
+
+    <div class="chat-head">
+
+        <div class="bot-avatar">✦</div>
+
+        <div>
+            <strong>SocialX AI Agent</strong>
+            <small>● Online & Ready</small>
+        </div>
+
+        <button class="close-chat" onclick="closeChat()">×</button>
+
+    </div>
+
+
+    <div class="messages" id="messages">
+
+        <div class="msg bot-msg">
+            👋 Hello! I'm your SocialX AI Agent.
+            <br><br>
+            I can help you with:
+            <br>• Social media strategy
+            <br>• Content ideas
+            <br>• Trending topics
+            <br>• Hashtags
+            <br>• Audience sentiment
+            <br>• Engagement optimization
+        </div>
+
+        <div class="msg bot-msg">
+            What would you like to analyze today?
+        </div>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+        <button onclick="quickMessage('Give me Instagram content ideas')">
+            📸 Content Ideas
+        </button>
+
+        <button onclick="quickMessage('Show trending topics')">
+            🔥 Trends
+        </button>
+
+        <button onclick="quickMessage('Give hashtag strategy')">
+            # Hashtags
+        </button>
+
+        <button onclick="quickMessage('Analyze audience sentiment')">
+            💬 Sentiment
+        </button>
+
+    </div>
+
+
+    <div class="chat-input">
+
+        <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask your AI agent..."
+            onkeydown="if(event.key==='Enter') sendMessage()"
+        >
+
+        <button class="send" onclick="sendMessage()">➤</button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= CHAT ================= */
+
+function openChat(){
+
+    document.getElementById("chatWindow")
+    .classList.add("active");
+
+    document.getElementById("overlay")
+    .classList.add("active");
+
+}
+
+function closeChat(){
+
+    document.getElementById("chatWindow")
+    .classList.remove("active");
+
+    document.getElementById("overlay")
+    .classList.remove("active");
+
+}
+
+
+function addMessage(text,type){
+
+    const messages=document.getElementById("messages");
+
+    const div=document.createElement("div");
+
+    div.className="msg "+type;
+
+    div.innerText=text;
+
+    messages.appendChild(div);
+
+    messages.scrollTop=messages.scrollHeight;
+
+}
+
+
+function sendMessage(){
+
+    const input=document.getElementById("chatInput");
+
+    const text=input.value.trim();
+
+    if(!text)return;
+
+    addMessage(text,"user-msg");
+
+    input.value="";
+
+    setTimeout(()=>{
+
+        let response=
+        "🧠 Based on your social media data, I recommend focusing on short-form video, audience interaction and trend-based content.";
+
+        const q=text.toLowerCase();
+
+        if(q.includes("instagram")){
+
+            response=
+            "📸 Instagram Strategy:\n\nCreate Reels with a strong hook in the first 2 seconds, use carousel posts for educational content and finish captions with a question.";
+
+        }
+
+        else if(q.includes("trend")){
+
+            response=
+            "🔥 Trend Insight:\n\nAI, creator economy, digital marketing and short-form video are strong content themes to monitor. Track sudden increases in engagement before creating posts.";
+
+        }
+
+        else if(q.includes("hashtag")){
+
+            response=
+            "🏷️ Hashtag Strategy:\n\nUse a mix of broad, medium-volume and niche hashtags. Keep hashtags directly relevant to your content rather than using unrelated popular tags.";
+
+        }
+
+        else if(q.includes("sentiment")){
+
+            response=
+            "💬 Sentiment Analysis:\n\nYour current demo dashboard shows 72% positive, 20% neutral and 8% negative sentiment. In a real system, these values would come from connected social data.";
+
+        }
+
+        else if(q.includes("content")){
+
+            response=
+            "✨ Content Idea:\n\nCreate a carousel titled '5 AI Trends Every Business Should Know'. End with a CTA asking your audience which trend they expect to grow next.";
+
+        }
+
+        setTimeout(()=>{
+
+            addMessage(response,"bot-msg");
+
+        },400);
+
+    },500);
+
+}
+
+
+function quickMessage(text){
+
+    document.getElementById("chatInput").value=text;
+
+    sendMessage();
+
+}
+
+
+/* ================= CONTENT GENERATOR ================= */
+
+const ideas=[
+
+"🚀 Create a Reel: '5 AI Tools That Can Save Your Business Hours Every Week.'",
+
+"📊 Create a carousel: '7 Social Media Mistakes Brands Should Stop Making.'",
+
+"🔥 Create a trend reaction video explaining how AI is changing digital marketing.",
+
+"💡 Post a customer story showing how your product solved a real problem.",
+
+"🎯 Create a poll: 'Which social platform gives you the best engagement?'",
+
+"🧠 Create an educational post: 'How Social Media Algorithms Actually Work.'",
+
+"🎥 Create a behind-the-scenes video showing your team's creative process."
+
+];
+
+
+function generateIdea(){
+
+    const box=document.getElementById("ideaText");
+
+    box.style.opacity="0";
+
+    setTimeout(()=>{
+
+        const random=
+        ideas[Math.floor(Math.random()*ideas.length)];
+
+        box.innerText=random;
+
+        box.style.opacity="1";
+
+    },300);
+
+}
+
+
+/* ================= SCROLL ================= */
+
+function scrollToDashboard(){
+
+    document.getElementById("dashboard")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ================= GRAPH ANIMATION ================= */
+
+window.addEventListener("load",()=>{
+
+    const bars=document.querySelectorAll(".graph-bar");
+
+    bars.forEach((bar,index)=>{
+
+        const original=bar.style.height;
+
+        bar.style.height="0";
+
+        setTimeout(()=>{
+
+            bar.style.height=original;
+
+        },100+index*100);
+
+    });
+
+});
+
+</script>
+<script>
+  window.wxOConfiguration = {
+    orchestrationID: "ae8ba40eb5a144058c8ebefad11cf9e4_a3f86b32-7b2f-4196-b823-a15ce2f137e1",
+    hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
+    rootElementID: "root",
+    deploymentPlatform: "ibmcloud",
+    crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/ae8ba40eb5a144058c8ebefad11cf9e4:a3f86b32-7b2f-4196-b823-a15ce2f137e1::",
+    chatOptions: {
+        agentId: "ef8f16e4-93fb-4260-a354-df4a807d2309", 
+    }
+  };
+  setTimeout(function () {
+    const script = document.createElement('script');
+    script.src = `${window.wxOConfiguration.hostURL}/wxochat/wxoLoader.js?embed=true`;
+    script.addEventListener('load', function () {
+        wxoLoader.init();
+    });
+    document.head.appendChild(script);
+  }, 0);                     
+</script>
+</body>
+</html>
